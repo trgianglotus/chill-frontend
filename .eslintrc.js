@@ -19,5 +19,6 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'prettier/prettier': 0,
+    'no-unused-vars': 1,
   },
 };
