@@ -5,6 +5,8 @@ import {
   createNetworkInterface,
   ApolloProvider,
 } from 'react-apollo';
+import 'semantic-ui-css/semantic.min.css';
+
 import Routes from './routes';
 import * as serviceWorker from './serviceWorker';
 
