@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {
   Form,
   Message,
@@ -6,8 +6,8 @@ import {
   Input,
   Container,
   Header,
-} from 'semantic-ui-react';
-import { gql, graphql } from 'react-apollo';
+} from 'semantic-ui-react'
+import { gql, graphql } from 'react-apollo'
 
 class Register extends React.Component {
   state = {
@@ -17,42 +17,42 @@ class Register extends React.Component {
     emailError: '',
     password: '',
     passwordError: '',
-  };
+  }
 
   onSubmit = async () => {
     this.setState({
       usernameError: '',
       emailError: '',
       passwordError: '',
-    });
+    })
 
-    const { username, email, password } = this.state;
+    const { username, email, password } = this.state
     const response = await this.props.mutate({
       variables: { username, email, password },
-    });
+    })
 
-    const { ok, errors } = response.data.register;
+    const { ok, errors } = response.data.register
 
     if (ok) {
-      this.props.history.push('/');
+      this.props.history.push('/')
     } else {
-      const err = {};
+      const err = {}
       errors.forEach(({ path, message }) => {
         // err['passwordError'] = 'too long..';
-        err[`${path}Error`] = message;
-      });
+        err[`${path}Error`] = message
+      })
 
-      this.setState(err);
+      this.setState(err)
     }
 
-    console.log(response);
-  };
+    console.log(response)
+  }
 
   onChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     // name = "email";
-    this.setState({ [name]: value });
-  };
+    this.setState({ [name]: value })
+  }
 
   render() {
     const {
@@ -62,51 +62,51 @@ class Register extends React.Component {
       usernameError,
       emailError,
       passwordError,
-    } = this.state;
+    } = this.state
 
-    const errorList = [];
+    const errorList = []
 
     if (usernameError) {
-      errorList.push(usernameError);
+      errorList.push(usernameError)
     }
 
     if (emailError) {
-      errorList.push(emailError);
+      errorList.push(emailError)
     }
 
     if (passwordError) {
-      errorList.push(passwordError);
+      errorList.push(passwordError)
     }
 
     return (
       <Container text>
-        <Header as='h2'>Register</Header>
+        <Header as="h2">Register</Header>
         <Form>
           <Form.Field error={!!usernameError}>
             <Input
-              name='username'
+              name="username"
               onChange={this.onChange}
               value={username}
-              placeholder='Username'
+              placeholder="Username"
               fluid
             />
           </Form.Field>
           <Form.Field error={!!emailError}>
             <Input
-              name='email'
+              name="email"
               onChange={this.onChange}
               value={email}
-              placeholder='Email'
+              placeholder="Email"
               fluid
             />
           </Form.Field>{' '}
           <Form.Field error={!!passwordError}>
             <Input
-              name='password'
+              name="password"
               onChange={this.onChange}
               value={password}
-              type='password'
-              placeholder='Password'
+              type="password"
+              placeholder="Password"
               fluid
             />
           </Form.Field>
@@ -115,12 +115,12 @@ class Register extends React.Component {
         {errorList.length ? (
           <Message
             error
-            header='There was some errors with your submission'
+            header="There was some errors with your submission"
             list={errorList}
           />
         ) : null}
       </Container>
-    );
+    )
   }
 }
 
@@ -134,6 +134,6 @@ const registerMutation = gql`
       }
     }
   }
-`;
+`
 
-export default graphql(registerMutation)(Register);
+export default graphql(registerMutation)(Register)

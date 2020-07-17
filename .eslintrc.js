@@ -2,9 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    node: true,
   },
-  extends: ['airbnb-base', 'prettier'],
+  extends: 'airbnb',
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -17,8 +16,5 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react'],
-  rules: {
-    'prettier/prettier': 1,
-    'no-unused-vars': 1,
-  },
-};
+  rules: {},
+}

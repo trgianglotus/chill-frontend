@@ -1,6 +1,6 @@
-import React from 'react';
-import { extendObservable } from 'mobx';
-import { observer } from 'mobx-react';
+import React from 'react'
+import { extendObservable } from 'mobx'
+import { observer } from 'mobx-react'
 import {
   Message,
   Form,
@@ -8,86 +8,86 @@ import {
   Input,
   Container,
   Header,
-} from 'semantic-ui-react';
-import { gql, graphql } from 'react-apollo';
+} from 'semantic-ui-react'
+import { gql, graphql } from 'react-apollo'
 
 class Login extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     extendObservable(this, {
       email: '',
       password: '',
       errors: {},
-    });
+    })
   }
 
   onSubmit = async () => {
-    const { email, password } = this;
+    const { email, password } = this
     const response = await this.props.mutate({
       variables: { email, password },
-    });
+    })
 
-    console.log(response);
+    console.log(response)
 
-    const { ok, token, refreshToken, errors } = response.data.login;
+    const { ok, token, refreshToken, errors } = response.data.login
 
     if (ok) {
-      localStorage.setItem('token', token);
-      localStorage.setItem('refreshToken', refreshToken);
-      this.props.history.push('/');
+      localStorage.setItem('token', token)
+      localStorage.setItem('refreshToken', refreshToken)
+      this.props.history.push('/')
     } else {
-      const err = {};
+      const err = {}
       errors.forEach(({ path, message }) => {
-        err[`${path}Error`] = message;
-      });
+        err[`${path}Error`] = message
+      })
 
-      this.errors = err;
+      this.errors = err
     }
-  };
+  }
 
   onChange = (e) => {
-    const { name, value } = e.target;
-    this[name] = value;
-  };
+    const { name, value } = e.target
+    this[name] = value
+  }
 
   render() {
     const {
       email,
       password,
       errors: { emailError, passwordError },
-    } = this;
+    } = this
 
-    const errorList = [];
+    const errorList = []
 
     if (emailError) {
-      errorList.push(emailError);
+      errorList.push(emailError)
     }
 
     if (passwordError) {
-      errorList.push(passwordError);
+      errorList.push(passwordError)
     }
 
     return (
       <Container text>
-        <Header as='h2'>Login</Header>
+        <Header as="h2">Login</Header>
         <Form>
           <Form.Field error={!!emailError}>
             <Input
-              name='email'
+              name="email"
               onChange={this.onChange}
               value={email}
-              placeholder='Email'
+              placeholder="Email"
               fluid
             />
           </Form.Field>
           <Form.Field error={!!passwordError}>
             <Input
-              name='password'
+              name="password"
               onChange={this.onChange}
               value={password}
-              type='password'
-              placeholder='Password'
+              type="password"
+              placeholder="Password"
               fluid
             />
           </Form.Field>
@@ -96,12 +96,12 @@ class Login extends React.Component {
         {errorList.length ? (
           <Message
             error
-            header='There was some errors with your submission'
+            header="There was some errors with your submission"
             list={errorList}
           />
         ) : null}
       </Container>
-    );
+    )
   }
 }
 
@@ -117,6 +117,6 @@ const loginMutation = gql`
       }
     }
   }
-`;
+`
 
-export default graphql(loginMutation)(observer(Login));
+export default graphql(loginMutation)(observer(Login))
