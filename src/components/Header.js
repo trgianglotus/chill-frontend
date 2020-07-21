@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Header } from 'semantic-ui-react'
 
 const HeaderWrapper = styled.div`
+  padding-top: 10px;
   grid-column: 3;
   grid-row: 1;
 `
