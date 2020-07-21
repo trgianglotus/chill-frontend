@@ -1,6 +1,6 @@
-import React from 'react';
-import { extendObservable } from 'mobx';
-import { observer } from 'mobx-react';
+import React from 'react'
+import { extendObservable } from 'mobx'
+import { observer } from 'mobx-react'
 import {
   Message,
   Form,
@@ -8,74 +8,74 @@ import {
   Input,
   Container,
   Header,
-} from 'semantic-ui-react';
-import { gql, graphql } from 'react-apollo';
+} from 'semantic-ui-react'
+import { gql, graphql } from 'react-apollo'
 
 class CreateTeam extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     extendObservable(this, {
       name: '',
       errors: {},
-    });
+    })
   }
 
   onSubmit = async () => {
-    const { name } = this;
-    let response = null;
+    const { name } = this
+    let response = null
 
     try {
       response = await this.props.mutate({
         variables: { name },
-      });
+      })
     } catch (err) {
-      this.props.history.push('/login');
-      return;
+      this.props.history.push('/login')
+      return
     }
-    console.log(response);
+    console.log(response)
 
-    const { ok, errors } = response.data.createTeam;
+    const { ok, errors } = response.data.createTeam
 
     if (ok) {
-      this.props.history.push('/');
+      this.props.history.push('/')
     } else {
-      const err = {};
+      const err = {}
       errors.forEach(({ path, message }) => {
-        err[`${path}Error`] = message;
-      });
+        err[`${path}Error`] = message
+      })
 
-      this.errors = err;
+      this.errors = err
     }
-  };
+  }
 
   onChange = (e) => {
-    const { name, value } = e.target;
-    this[name] = value;
-  };
+    const { name, value } = e.target
+    this[name] = value
+  }
 
   render() {
     const {
       name,
       errors: { nameError },
-    } = this;
+    } = this
 
-    const errorList = [];
+    const errorList = []
 
     if (nameError) {
-      errorList.push(nameError);
+      errorList.push(nameError)
     }
 
     return (
       <Container text>
-        <Header as='h2'>Create a team</Header>
+        <Header as="h2">Create a team</Header>
         <Form>
           <Form.Field error={!!nameError}>
             <Input
-              name='name'
+              name="name"
               onChange={this.onChange}
               value={name}
-              placeholder='Name'
+              placeholder="Name"
               fluid
             />
           </Form.Field>
@@ -84,12 +84,12 @@ class CreateTeam extends React.Component {
         {errorList.length ? (
           <Message
             error
-            header='There was some errors with your submission'
+            header="There was some errors with your submission"
             list={errorList}
           />
         ) : null}
       </Container>
-    );
+    )
   }
 }
 
@@ -103,6 +103,6 @@ const createTeamMutation = gql`
       }
     }
   }
-`;
+`
 
-export default graphql(createTeamMutation)(observer(CreateTeam));
+export default graphql(createTeamMutation)(observer(CreateTeam))
