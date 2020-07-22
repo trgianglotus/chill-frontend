@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { Header } from 'semantic-ui-react'
 
 const HeaderWrapper = styled.div`
-  padding-top: 10px;
+  padding: 10px 0 0 10px;
   grid-column: 3;
   grid-row: 1;
 `
 
 export default ({ channelName }) => (
   <HeaderWrapper>
-    <Header textAlign="center">#{channelName}</Header>
+    <Header>#{channelName}</Header>
   </HeaderWrapper>
 )

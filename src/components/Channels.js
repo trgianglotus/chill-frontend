@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 
 const ChannelWrapper = styled.div`
   padding-top: 10px;
@@ -23,6 +24,8 @@ const SideBarList = styled.ul`
 
 const paddingLeft = 'padding-left: 10px'
 
+const paddingRight = 'padding-right: 10px'
+
 const SideBarListItem = styled.li`
   padding: 2px;
   ${paddingLeft};
@@ -33,6 +36,9 @@ const SideBarListItem = styled.li`
 
 const SideBarListHeader = styled.li`
   ${paddingLeft};
+  ${paddingRight};
+  display: flex;
+  justify-content: space-between;
 `
 
 const PushLeft = styled.div`
@@ -45,8 +51,14 @@ const Green = styled.span`
 
 const Bubble = ({ on = true }) => (on ? <Green>●</Green> : '○')
 
-const channel = ({ id, name }) => (
-  <SideBarListItem key={`channel-${id}`}># {name}</SideBarListItem>
+const channel = ({ id, name }, teamId) => (
+  <Link
+    to={`/view-team/${teamId}/${id}`}
+    key={`channel-${id}`}
+    style={{ color: 'inherit' }}
+  >
+    <SideBarListItem># {name}</SideBarListItem>
+  </Link>
 )
 
 const user = ({ id, name }) => (
@@ -55,7 +67,14 @@ const user = ({ id, name }) => (
   </SideBarListItem>
 )
 
-export default ({ teamName, username, channels, users, onAddChannelClick }) => (
+export default ({
+  teamName,
+  username,
+  channels,
+  users,
+  onAddChannelClick,
+  teamId,
+}) => (
   <ChannelWrapper>
     <PushLeft>
       <TeamNameHeader>{teamName}</TeamNameHeader>
@@ -66,7 +85,7 @@ export default ({ teamName, username, channels, users, onAddChannelClick }) => (
         <SideBarListHeader>
           Channels <Icon onClick={onAddChannelClick} name="add circle" />
         </SideBarListHeader>
-        {channels.map(channel)}
+        {channels.map((c) => channel(c, teamId))}
       </SideBarList>
     </div>
     <div>

@@ -9,7 +9,7 @@ import AddChannelModal from '../components/AddChannelModal'
 import { allTeamsQuery } from '../graphql/team'
 import '../assets/modal.scss'
 
-class Sidebar extends React.Component {
+export default class Sidebar extends React.Component {
   state = {
     openAddChannelModal: false,
   }
@@ -23,35 +23,17 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {
-      data: { loading, allTeams },
-      currentTeamId,
-    } = this.props
-
-    if (loading) {
-      return null
-    }
-
-    const teamIdx = currentTeamId
-      ? findIndex(allTeams, ['id', parseInt(currentTeamId, 10)])
-      : 0
-    const team = allTeams[teamIdx]
+    const { teams, team } = this.props
     let username = ''
     try {
       const token = localStorage.getItem('token')
       const { user } = decode(token)
-      // eslint-disable-next-line prefer-destructuring
+
       username = user.username
     } catch (err) {}
 
     return [
-      <Teams
-        key="team-sidebar"
-        teams={allTeams.map((t) => ({
-          id: t.id,
-          letter: t.name.charAt(0).toUpperCase(),
-        }))}
-      />,
+      <Teams key="team-sidebar" teams={teams} />,
       <Channels
         key="channels-sidebar"
         teamName={team.name}
@@ -62,6 +44,7 @@ class Sidebar extends React.Component {
           { id: 2, name: 'user1' },
         ]}
         onAddChannelClick={this.handleAddChannelClick}
+        teamId={team.id}
       />,
       <AddChannelModal
         teamId={team.id}
@@ -72,5 +55,3 @@ class Sidebar extends React.Component {
     ]
   }
 }
-
-export default graphql(allTeamsQuery)(Sidebar)
