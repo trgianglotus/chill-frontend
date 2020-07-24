@@ -37,11 +37,13 @@ export default class Sidebar extends React.Component {
     const { openInvitePeopleModal, openAddChannelModal } = this.state
 
     let username = ''
+    let isOwner = false
     try {
       const token = localStorage.getItem('token')
       const { user } = decode(token)
 
       username = user.username
+      isOwner = user.id === team.owner
     } catch (err) {}
 
     return [
@@ -55,6 +57,7 @@ export default class Sidebar extends React.Component {
           { id: 1, name: 'slackbot' },
           { id: 2, name: 'user1' },
         ]}
+        isOwner={isOwner}
         onAddChannelClick={this.toggleAddChannelModal}
         onInvitePeopleClick={this.toggleInvitePeopleModal}
         teamId={team.id}
