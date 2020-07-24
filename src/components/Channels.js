@@ -41,6 +41,10 @@ const SideBarListHeader = styled.li`
   justify-content: space-between;
 `
 
+const InviteLink = styled.div`
+  ${paddingLeft};
+`
+
 const PushLeft = styled.div`
   ${paddingLeft};
 `
@@ -95,10 +99,10 @@ export default ({
         {users.map(user)}
       </SideBarList>
     </div>
-    <div>
+    <InviteLink>
       <a href="#invite-people" onClick={onInvitePeopleClick}>
         + Invite People
       </a>
-    </div>
+    </InviteLink>
   </ChannelWrapper>
 )
