@@ -1,24 +1,24 @@
 import React from 'react'
 import { graphql } from 'react-apollo'
-import { allTeamsQuery } from '../graphql/team'
 import findIndex from 'lodash/findIndex'
 import { Redirect } from 'react-router-dom'
 
 import Header from '../components/Header'
+import { meQuery } from '../graphql/team'
 import SendMessage from '../components/SendMessage'
 import AppLayout from '../components/AppLayout'
 import Sidebar from '../containers/Sidebar'
 import MessageContainer from '../containers/MessageContainer'
 
 const ViewTeam = ({
-  data: { loading, allTeams, inviteTeams },
+  data: { loading, me },
   match: {
     params: { teamId, channelId },
   },
 }) => {
   if (loading) return false
 
-  const teams = [...allTeams, ...inviteTeams]
+  const { teams, username } = me
 
   if (!teams.length) {
     return <Redirect to="/create-team" />
@@ -40,6 +40,7 @@ const ViewTeam = ({
   return (
     <AppLayout>
       <Sidebar
+        username={username}
         teams={teams.map((t) => ({
           id: t.id,
           letter: t.name.charAt(0).toUpperCase(),
@@ -54,4 +55,6 @@ const ViewTeam = ({
     </AppLayout>
   )
 }
-export default graphql(allTeamsQuery)(ViewTeam)
+export default graphql(meQuery, { options: { fetchPolicy: 'network-only' } })(
+  ViewTeam
+)
