@@ -12,10 +12,9 @@ import MessageContainer from '../containers/MessageContainer'
 import { meQuery } from '../graphql/team'
 
 const ViewTeam = ({
-  mutate,
   data: { loading, me },
   match: {
-    params: { teamId, channelId },
+    params: { teamId, userId },
   },
 }) => {
   if (loading) return false
@@ -31,14 +30,6 @@ const ViewTeam = ({
   const teamIdx = teamIdInteger ? findIndex(teams, ['id', teamIdInteger]) : 0
   const team = teamIdx === -1 ? teams[0] : teams[teamIdx]
 
-  const channelIdInteger = parseInt(channelId, 10)
-
-  const channelIdx = channelIdInteger
-    ? findIndex(team.channels, ['id', channelIdInteger])
-    : 0
-  const channel =
-    channelIdx === -1 ? team.channels[0] : team.channels[channelIdx]
-
   return (
     <AppLayout>
       <Sidebar
@@ -49,16 +40,10 @@ const ViewTeam = ({
         }))}
         team={team}
       />
-      {channel && <Header channelName={channel.name} />}
-      {channel && <MessageContainer channelId={channel.id} />}
-      {channel && (
-        <SendMessage
-          placeholder={channel.name}
-          onSubmit={async (text) => {
-            await mutate({ variables: { text, channelId: channel.id } })
-          }}
-        />
-      )}
+      {/* <Header channelName={channel.name} />
+      <MessageContainer channelId={channel.id} /> */}
+      (
+      <SendMessage onSubmit={() => {}} placeholder={userId} />)
     </AppLayout>
   )
 }
