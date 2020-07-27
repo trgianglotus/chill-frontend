@@ -4,6 +4,7 @@ import Channels from '../components/Channels'
 import Teams from '../components/Teams'
 import AddChannelModal from '../components/AddChannelModal'
 import InvitePeopleModal from '../components/InvitePeopleModal'
+import DirectMessageModal from '../components/DirectMessageModal'
 
 import '../assets/modal.scss'
 
@@ -11,6 +12,7 @@ export default class Sidebar extends React.Component {
   state = {
     openAddChannelModal: false,
     openInvitePeopleModal: false,
+    openDirectMessageModel: false,
   }
 
   toggleAddChannelModal = (e) => {
@@ -19,6 +21,15 @@ export default class Sidebar extends React.Component {
     }
     this.setState((state) => ({
       openAddChannelModal: !state.openAddChannelModal,
+    }))
+  }
+
+  toggleDirectMessageModal = (e) => {
+    if (e) {
+      e.preventDefault()
+    }
+    this.setState((state) => ({
+      openDirectMessageModel: !state.openDirectMessageModel,
     }))
   }
 
@@ -33,7 +44,11 @@ export default class Sidebar extends React.Component {
 
   render() {
     const { teams, team, username } = this.props
-    const { openInvitePeopleModal, openAddChannelModal } = this.state
+    const {
+      openInvitePeopleModal,
+      openAddChannelModal,
+      openDirectMessageModel,
+    } = this.state
     return [
       <Teams key="team-sidebar" teams={teams} />,
       <Channels
@@ -48,6 +63,7 @@ export default class Sidebar extends React.Component {
         isOwner={team.admin}
         onAddChannelClick={this.toggleAddChannelModal}
         onInvitePeopleClick={this.toggleInvitePeopleModal}
+        onDirectMessageClick={this.toggleDirectMessageModal}
         teamId={team.id}
       />,
       <AddChannelModal
@@ -61,6 +77,12 @@ export default class Sidebar extends React.Component {
         onClose={this.toggleInvitePeopleModal}
         open={openInvitePeopleModal}
         key="invite-people-modal"
+      />,
+      <DirectMessageModal
+        teamId={team.id}
+        onClose={this.toggleDirectMessageModal}
+        open={openDirectMessageModel}
+        key="sidebar-direct-message-modal"
       />,
     ]
   }
