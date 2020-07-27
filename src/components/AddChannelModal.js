@@ -1,12 +1,12 @@
 import React from 'react'
+import gql from 'graphql-tag'
+import findIndex from 'lodash/findIndex'
 import { Form, Input, Button, Modal } from 'semantic-ui-react'
 import { withFormik } from 'formik'
-import gql from 'graphql-tag'
 import { compose, graphql } from 'react-apollo'
-import findIndex from 'lodash/findIndex'
 
-import { meQuery } from '../graphql/team'
 import '../assets/modal.scss'
+import { meQuery } from '../graphql/team'
 
 const AddChannelModal = ({
   open,
@@ -16,8 +16,15 @@ const AddChannelModal = ({
   handleBlur,
   handleSubmit,
   isSubmitting,
+  resetForm,
 }) => (
-  <Modal open={open} onClose={onClose}>
+  <Modal
+    open={open}
+    onClose={(e) => {
+      resetForm()
+      onClose(e)
+    }}
+  >
     <Modal.Header>Add Channel</Modal.Header>
     <Modal.Content>
       <Form>
@@ -32,7 +39,14 @@ const AddChannelModal = ({
           />
         </Form.Field>
         <Form.Group widths="equal">
-          <Button disabled={isSubmitting} fluid onClick={onClose}>
+          <Button
+            disabled={isSubmitting}
+            fluid
+            onClick={(e) => {
+              resetForm()
+              onClose(e)
+            }}
+          >
             Cancel
           </Button>
           <Button disabled={isSubmitting} onClick={handleSubmit} fluid>
