@@ -24,7 +24,7 @@ const newChannelMessageSubscription = gql`
 const Message = ({ message: { url, text, filetype } }) => {
   if (url) {
     if (filetype.startsWith('image/')) {
-      return <img style={{ maxWidth: '30vw' }} src={url} alt="" />
+      return <img src={url} alt="" />
     } else if (filetype === 'text/plain') {
       return <RenderText url={url} />
     } else if (filetype.startsWith('audio/')) {

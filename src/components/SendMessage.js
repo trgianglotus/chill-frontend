@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Input, Icon, Button } from 'semantic-ui-react'
+import { Button, Icon, Input } from 'semantic-ui-react'
 import { withFormik } from 'formik'
 
 import FileUpload from './FileUpload'
@@ -32,11 +32,11 @@ const SendMessage = ({
     <Input
       onKeyDown={(e) => {
         if (e.keyCode === ENTER_KEY && !isSubmitting) {
-          handleSubmit()
+          handleSubmit(e)
         }
       }}
-      onBlur={handleBlur}
       onChange={handleChange}
+      onBlur={handleBlur}
       name="message"
       value={values.message}
       placeholder={`Message #${placeholder}`}
@@ -54,10 +54,8 @@ export default withFormik({
       setSubmitting(false)
       return
     }
+
     await onSubmit(values.message)
-    // await mutate({
-    //   variables: { channelId, text: values.message },
-    // })
     resetForm(false)
   },
 })(SendMessage)
